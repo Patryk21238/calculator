@@ -2,18 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 public class MyFrame extends JFrame {
-    private JPanel contentPane;
+    private final JPanel contentPane;
     private JComboBox<String> comboBox;
     private JComboBox<String> comboBox1;
     private JTextField fromField;
     private JTextField toField;
-    private static ConvertedObject currencies = ConvertedObject.prepareCurrencies();
-    private static ConvertedObject unitsOfLength = ConvertedObject.prepareUnitsOfLength();
-    private static ConvertedObject speedUnits = ConvertedObject.prepareSpeedUnits();
+    JComboBox<String> conversionType;
+    private static final ConvertedObject currencies = ConvertedObject.prepareCurrencies();
+    private static final ConvertedObject unitsOfLength = ConvertedObject.prepareUnitsOfLength();
+    private static final ConvertedObject speedUnits = ConvertedObject.prepareSpeedUnits();
 
     public MyFrame() {
         super("Konwenter");
@@ -28,10 +29,10 @@ public class MyFrame extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JComboBox<String> conversionType = pickConversionTypeComboBox();
+        conversionType = pickConversionTypeComboBox();
         contentPane.add(conversionType);
 
-        JButton conversionTypeButton = pickConversionTypeActionButton(conversionType);
+        JButton conversionTypeButton = pickConversionTypeActionButton();
         contentPane.add(conversionTypeButton);
 
         setVisible(true);
@@ -39,7 +40,7 @@ public class MyFrame extends JFrame {
 
     }
 
-    private JButton pickConversionTypeActionButton(JComboBox<String> conversionType) {
+    private JButton pickConversionTypeActionButton() {
         JButton btnConvert = new JButton("CHOOSE");
         btnConvert.setBounds(475, 10, 129, 50);
         btnConvert.addActionListener(new ActionListener() {
@@ -47,6 +48,8 @@ public class MyFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (comboBox != null) contentPane.remove(comboBox);
                 if (comboBox1 != null) contentPane.remove(comboBox1);
+                if(fromField != null) contentPane.remove(fromField);
+                if(toField != null) contentPane.remove(toField);
                 contentPane.updateUI();
 
                 int fromPosition = 75;
@@ -55,7 +58,7 @@ public class MyFrame extends JFrame {
                 JLabel toLabel = pickValueTypeLabel("TO:", toPosition);
                 fromField = prepareAmountField(75, "");
                 toField = prepareAmountField(150, "");
-                JButton countButton = countButton(conversionType);
+                JButton countButton = countButton();
 
                 contentPane.add(fromLabel);
                 contentPane.add(toLabel);
@@ -66,7 +69,7 @@ public class MyFrame extends JFrame {
                 contentPane.revalidate();
                 contentPane.repaint();
 
-                String conversion = conversionType.getSelectedItem().toString();
+                String conversion = Objects.requireNonNull(conversionType.getSelectedItem()).toString();
 
                 switch (conversion) {
                     case "currencies":
@@ -104,7 +107,7 @@ public class MyFrame extends JFrame {
         return btnConvert;
     }
 
-    private JButton countButton(JComboBox<String> conversionType) {
+    private JButton countButton() {
         JButton count = new JButton("COUNT");
         count.setBounds(50, 225, 554, 50);
         count.setBackground(Color.GREEN);
@@ -113,21 +116,24 @@ public class MyFrame extends JFrame {
         count.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String conversion = conversionType.getSelectedItem().toString();
-                String from = comboBox.getSelectedItem().toString();
-                String to = comboBox1.getSelectedItem().toString();
-                String v = fromField.getText();
-                double value1 = 1.0;
-                double value2 = 1.0;
+                String conversion = Objects.requireNonNull(conversionType.getSelectedItem()).toString();
+                String from = Objects.requireNonNull(comboBox.getSelectedItem()).toString();
+                String to = Objects.requireNonNull(comboBox1.getSelectedItem()).toString();
                 double typedValue;
-                String result;
-                System.out.println(v);
+
                 try {
-                    typedValue = Double.parseDouble(v);
+                    typedValue = Double.parseDouble(fromField.getText());
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                     typedValue = 0.0;
                 }
+
+                double value1 = 1.0;
+                double value2 = 1.0;
+
+                String result;
+
+
 
                 if(toField != null) contentPane.remove(toField);
                 contentPane.updateUI();
@@ -183,7 +189,7 @@ public class MyFrame extends JFrame {
     }
 
     public static JComboBox<String> pickConversionTypeComboBox() {
-        final JComboBox<String> comboBoxConversionType = new JComboBox<String>();
+        final JComboBox<String> comboBoxConversionType = new JComboBox<>();
         comboBoxConversionType.setBounds(50, 10, 400, 50);
         fillComboBoxConversionType(comboBoxConversionType, currencies, speedUnits, unitsOfLength);
         return comboBoxConversionType;
@@ -198,7 +204,7 @@ public class MyFrame extends JFrame {
     }
 
     public static JComboBox<String> pickValueType(ConvertedObject convertedObject, int yPosition) {
-        final JComboBox<String> comboBoxValueType = new JComboBox<String>();
+        final JComboBox<String> comboBoxValueType = new JComboBox<>();
         comboBoxValueType.setBounds(100, yPosition, 350, 50);
         fillComboBox(comboBoxValueType, convertedObject);
 

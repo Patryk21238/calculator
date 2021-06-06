@@ -41,12 +41,12 @@ public class ConvertedObject{
         ConvertedObject unitsOfLength = new ConvertedObject("units of length");
 
         unitsOfLength.setValues("cm", 1.0);
-        unitsOfLength.setValues("mm", 10.0);
-        unitsOfLength.setValues("dm", 0.1);
-        unitsOfLength.setValues("m", 0.01);
-        unitsOfLength.setValues("km", 0.00001);
-        unitsOfLength.setValues("cal", 0.393701);
-        unitsOfLength.setValues("jard", 0.010936);
+        unitsOfLength.setValues("mm", 0.1);
+        unitsOfLength.setValues("dm", 10.0);
+        unitsOfLength.setValues("m", 100.0);
+        unitsOfLength.setValues("km", 100000.0);
+        unitsOfLength.setValues("cal", 2.54);
+        unitsOfLength.setValues("jard", 91.44);
 
 
         return unitsOfLength;

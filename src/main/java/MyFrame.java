@@ -4,28 +4,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ArrayList;
 
 public class MyFrame extends JFrame {
-    private final JPanel contentPane;
-    private JComboBox<String> comboBox;
-    private JComboBox<String> comboBox1;
+    private static final JPanel contentPane = new JPanel();
+    private static JComboBox<String> comboBox;
+    private static JComboBox<String> comboBox1;
     private JTextField fromField;
-    private JTextField toField;
+    private static JTextField toField;
     JComboBox<String> conversionType;
-    private static final ConvertedObject currencies = ConvertedObject.prepareCurrencies();
-    private static final ConvertedObject unitsOfLength = ConvertedObject.prepareUnitsOfLength();
-    private static final ConvertedObject speedUnits = ConvertedObject.prepareSpeedUnits();
+    private static final ArrayList<Object> arrayOfObjects = new ArrayList<Object>();
+    private static int fromPosition = 75;
+    private static int toPosition = 150;
 
     public MyFrame() {
         super("Konwenter");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fillArrayOfObjects();
 
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension dim = tk.getScreenSize();
         setSize(dim.width / 2, dim.height - 50);
         setResizable(false);
-
-        contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
@@ -37,7 +37,6 @@ public class MyFrame extends JFrame {
 
         setVisible(true);
 
-
     }
 
     private JButton pickConversionTypeActionButton() {
@@ -46,14 +45,16 @@ public class MyFrame extends JFrame {
         btnConvert.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (comboBox != null) contentPane.remove(comboBox);
-                if (comboBox1 != null) contentPane.remove(comboBox1);
-                if(fromField != null) contentPane.remove(fromField);
-                if(toField != null) contentPane.remove(toField);
+                if (comboBox != null)
+                    contentPane.remove(comboBox);
+                if (comboBox1 != null)
+                    contentPane.remove(comboBox1);
+                if (fromField != null)
+                    contentPane.remove(fromField);
+                if (toField != null)
+                    contentPane.remove(toField);
                 contentPane.updateUI();
 
-                int fromPosition = 75;
-                int toPosition = 150;
                 JLabel fromLabel = pickValueTypeLabel("FROM:", fromPosition);
                 JLabel toLabel = pickValueTypeLabel("TO:", toPosition);
                 fromField = prepareAmountField(75, "");
@@ -73,28 +74,28 @@ public class MyFrame extends JFrame {
 
                 switch (conversion) {
                     case "currencies":
-                        comboBox = pickValueType(currencies, fromPosition);
-                        contentPane.add(comboBox);
-                        comboBox1 = pickValueType(currencies, toPosition);
-                        contentPane.add(comboBox1);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseValueType(arrayOfObjects.get(0));
                         break;
                     case "units of length":
-                        comboBox = pickValueType(unitsOfLength, fromPosition);
-                        contentPane.add(comboBox);
-                        comboBox1 = pickValueType(unitsOfLength, toPosition);
-                        contentPane.add(comboBox1);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseValueType(arrayOfObjects.get(1));
                         break;
                     case "units of speed":
-                        comboBox = pickValueType(speedUnits, fromPosition);
-                        contentPane.add(comboBox);
-                        comboBox1 = pickValueType(speedUnits, toPosition);
-                        contentPane.add(comboBox1);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseValueType(arrayOfObjects.get(2));
+                        break;
+                    case "units of area":
+                        chooseValueType(arrayOfObjects.get(3));
+                        break;
+                    case "units of data size":
+                        chooseValueType(arrayOfObjects.get(4));
+                        break;
+                    case "units of volume":
+                        chooseValueType(arrayOfObjects.get(5));
+                        break;
+                    case "units of temperature":
+                        chooseValueType(arrayOfObjects.get(6));
+                        break;
+                    case "units of quantity":
+                        chooseValueType(arrayOfObjects.get(7));
                         break;
 
                     default:
@@ -128,58 +129,90 @@ public class MyFrame extends JFrame {
                     typedValue = 0.0;
                 }
 
-                double value1 = 1.0;
-                double value2 = 1.0;
-
-                String result;
-
-
-
-                if(toField != null) contentPane.remove(toField);
+                if (toField != null)
+                    contentPane.remove(toField);
                 contentPane.updateUI();
 
                 switch (conversion) {
                     case "currencies":
-                        result = countResult(currencies, from, to, value1, value2, typedValue);
-                        toField = prepareAmountField(150, result);
-                        contentPane.add(toField);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(0), from, to, typedValue);
                         break;
 
                     case "units of length":
-                        result = countResult(unitsOfLength, from, to, value1, value2, typedValue);
-                        toField = prepareAmountField(150, result);
-                        contentPane.add(toField);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(1), from, to, typedValue);
                         break;
 
                     case "units of speed":
-                        result = countResult(speedUnits, from, to, value1, value2, typedValue);
-                        toField = prepareAmountField(150, result);
-                        contentPane.add(toField);
-                        contentPane.revalidate();
-                        contentPane.repaint();
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(2), from, to, typedValue);
                         break;
+
+                    case "units of area":
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(3), from, to, typedValue);
+                        break;
+                    case "units of data size":
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(4), from, to, typedValue);
+                        break;
+                    case "units of volume":
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(5), from, to, typedValue);
+                        break;
+                    case "units of temperature":
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(6), from, to, typedValue);
+                        break;
+                    case "units of quantity":
+                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(7), from, to, typedValue);
+                        break;
+
                 }
-
-
             }
 
-            private String countResult(ConvertedObject convertedObject, String from, String to, double value1, double value2, double typedValue) {
-                double result;
-                for (Map.Entry<String, Double> entry : convertedObject.getValues().entrySet()) {
-                    if (entry.getKey().equals(from)) value1 = entry.getValue();
-                    if (entry.getKey().equals(to)) value2 = entry.getValue();
-                }
-                result = typedValue * (value1/value2);
-
-                return Double.toString(result);
-            }
         });
 
         return count;
+    }
+
+    public static void fillArrayOfObjects() {
+        arrayOfObjects.add(ConvertedObject.prepareCurrencies());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfLength());
+        arrayOfObjects.add(ConvertedObject.prepareSpeedUnits());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfArea());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfDataSize());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfVolume());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfQuantity());
+    }
+
+    public static <E> void chooseValueType(E inputObject) {
+        comboBox = pickValueType((ConvertedObject) inputObject, fromPosition);
+        contentPane.add(comboBox);
+        comboBox1 = pickValueType((ConvertedObject) inputObject, toPosition);
+        contentPane.add(comboBox1);
+        contentPane.revalidate();
+        contentPane.repaint();
+        System.out.println();
+    }
+
+    public static <E> void chooseFieldAndCountResult(E inputObject, String from, String to, double typedValue) {
+        String result = countResult((ConvertedObject) inputObject, from, to, typedValue);
+        toField = prepareAmountField(150, result);
+        contentPane.add(toField);
+        contentPane.revalidate();
+        contentPane.repaint();
+        System.out.println();
+    }
+
+    private static String countResult(ConvertedObject convertedObject, String from, String to, double typedValue) {
+        double result;
+        double value1 = 1.0;
+        double value2 = 1.0;
+        for (Map.Entry<String, Double> entry : convertedObject.getValues().entrySet()) {
+            if (entry.getKey().equals(from))
+                value1 = entry.getValue();
+            if (entry.getKey().equals(to))
+                value2 = entry.getValue();
+        }
+        result = typedValue * (value1 / value2);
+
+        return Double.toString(result);
     }
 
     public static void fillComboBox(JComboBox<String> comboBox, ConvertedObject convertedObject) {
@@ -191,7 +224,7 @@ public class MyFrame extends JFrame {
     public static JComboBox<String> pickConversionTypeComboBox() {
         final JComboBox<String> comboBoxConversionType = new JComboBox<>();
         comboBoxConversionType.setBounds(50, 10, 400, 50);
-        fillComboBoxConversionType(comboBoxConversionType, currencies, speedUnits, unitsOfLength);
+        fillComboBoxConversionType(comboBoxConversionType);
         return comboBoxConversionType;
     }
 
@@ -219,10 +252,10 @@ public class MyFrame extends JFrame {
         return fieldAmount;
     }
 
-    public static void fillComboBoxConversionType(JComboBox<String> comboBox, ConvertedObject convertedObject1,
-                                                  ConvertedObject convertedObject2, ConvertedObject convertedObject3) {
-        comboBox.addItem(convertedObject1.getName());
-        comboBox.addItem(convertedObject2.getName());
-        comboBox.addItem(convertedObject3.getName());
+    public static void fillComboBoxConversionType(JComboBox<String> comboBox) {
+        for (int i = 0; i < arrayOfObjects.size(); i++) {
+            ConvertedObject tmp = (ConvertedObject) arrayOfObjects.get(i);
+            comboBox.addItem(tmp.getName());
+        }
     }
 }

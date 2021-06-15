@@ -1,2 +1,14 @@
 # Project exclude paths
 /target/
+.classpath
+.project
+.settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
+src/main/java/ConvertedObject.class
+src/main/java/MyFrame.class
+src/main/java/MyFrame$1.class
+src/main/java/MyFrame$2.class
+src/main/java/tempCodeRunnerFile.java
+src/main/java/Test.class
+src/main/java/Test$1.class

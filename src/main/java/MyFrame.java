@@ -13,7 +13,7 @@ public class MyFrame extends JFrame {
     private JTextField fromField;
     private static JTextField toField;
     JComboBox<String> conversionType;
-    private static final ArrayList<Object> arrayOfObjects = new ArrayList<Object>();
+    private static final ArrayList<ConvertedObject> arrayOfObjects = new ArrayList<ConvertedObject>();
     private static int fromPosition = 75;
     private static int toPosition = 150;
 
@@ -135,31 +135,31 @@ public class MyFrame extends JFrame {
 
                 switch (conversion) {
                     case "currencies":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(0), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(0), from, to, typedValue);
                         break;
 
                     case "units of length":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(1), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(1), from, to, typedValue);
                         break;
 
                     case "units of speed":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(2), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(2), from, to, typedValue);
                         break;
 
                     case "units of area":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(3), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(3), from, to, typedValue);
                         break;
                     case "units of data size":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(4), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(4), from, to, typedValue);
                         break;
                     case "units of volume":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(5), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(5), from, to, typedValue);
                         break;
                     case "units of temperature":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(6), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
                         break;
                     case "units of quantity":
-                        chooseFieldAndCountResult((ConvertedObject) arrayOfObjects.get(7), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(7), from, to, typedValue);
                         break;
 
                 }
@@ -181,18 +181,19 @@ public class MyFrame extends JFrame {
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfQuantity());
     }
 
-    public static <E> void chooseValueType(E inputObject) {
-        comboBox = pickValueType((ConvertedObject) inputObject, fromPosition);
+    public static void chooseValueType(ConvertedObject inputObject) {
+        comboBox = pickValueType(inputObject, fromPosition);
         contentPane.add(comboBox);
-        comboBox1 = pickValueType((ConvertedObject) inputObject, toPosition);
+        comboBox1 = pickValueType(inputObject, toPosition);
         contentPane.add(comboBox1);
         contentPane.revalidate();
         contentPane.repaint();
         System.out.println();
     }
 
-    public static <E> void chooseFieldAndCountResult(E inputObject, String from, String to, double typedValue) {
-        String result = countResult((ConvertedObject) inputObject, from, to, typedValue);
+    public static void chooseFieldAndCountResult(ConvertedObject inputObject, String from, String to,
+            double typedValue) {
+        String result = countResult(inputObject, from, to, typedValue);
         toField = prepareAmountField(150, result);
         contentPane.add(toField);
         contentPane.revalidate();

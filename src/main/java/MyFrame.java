@@ -1,3 +1,8 @@
+import datetimeinfo.DTInfoESP;
+import datetimeinfo.DTInfoEng;
+import datetimeinfo.DTInfoRU;
+import datetimeinfo.DateTimeInfo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MyFrame extends JFrame {
     private static final JPanel contentPane = new JPanel();
@@ -28,6 +34,9 @@ public class MyFrame extends JFrame {
         setResizable(false);
         setContentPane(contentPane);
         contentPane.setLayout(null);
+
+        JLabel dateInfoLabel = prepareDataInfoInRandomLanguage();
+        contentPane.add(dateInfoLabel);
 
         conversionType = pickConversionTypeComboBox();
         contentPane.add(conversionType);
@@ -91,11 +100,11 @@ public class MyFrame extends JFrame {
                     case "units of volume":
                         chooseValueType(arrayOfObjects.get(5));
                         break;
-                    case "units of temperature":
-                        chooseValueType(arrayOfObjects.get(6));
-                        break;
+//                    case "units of temperature":
+//                        chooseValueType(arrayOfObjects.get(6));
+//                        break;
                     case "units of quantity":
-                        chooseValueType(arrayOfObjects.get(7));
+                        chooseValueType(arrayOfObjects.get(6));
                         break;
 
                     default:
@@ -155,11 +164,11 @@ public class MyFrame extends JFrame {
                     case "units of volume":
                         chooseFieldAndCountResult(arrayOfObjects.get(5), from, to, typedValue);
                         break;
-                    case "units of temperature":
-                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
-                        break;
+//                    case "units of temperature":
+//                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
+//                        break;
                     case "units of quantity":
-                        chooseFieldAndCountResult(arrayOfObjects.get(7), from, to, typedValue);
+                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
                         break;
 
                 }
@@ -177,7 +186,7 @@ public class MyFrame extends JFrame {
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfArea());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfDataSize());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfVolume());
-        arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
+//        arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfQuantity());
     }
 
@@ -233,6 +242,32 @@ public class MyFrame extends JFrame {
         JLabel label = new JLabel(message);
         label.setHorizontalAlignment(SwingConstants.LEFT);
         label.setBounds(50, yPosition, 90, 50);
+
+        return label;
+    }
+
+    private static JLabel prepareDataInfoInRandomLanguage() {
+        Random random = new Random();
+        int randInt = random.nextInt(4);
+        String message;
+        if (randInt == 0) {
+            DateTimeInfo dateTimeInfo = new DateTimeInfo();
+            message = dateTimeInfo.getGreetingMessage();
+        } else if(randInt == 1) {
+            DTInfoEng dtInfoEng = new DTInfoEng();
+            message = dtInfoEng.getGreetingMessage();
+        } else  if (randInt == 2) {
+            DTInfoRU dtInfoRU = new DTInfoRU();
+            message = dtInfoRU.getGreetingMessage();
+        } else {
+            DTInfoESP dtInfoESP = new DTInfoESP();
+            message = dtInfoESP.getGreetingMessage();
+        }
+
+        JLabel label = new JLabel(message);
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+        label.setBounds(50, 700, 500, 50);
+        label.setFont(new Font("Arial", Font.PLAIN, 20));
 
         return label;
     }

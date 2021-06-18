@@ -95,17 +95,17 @@ public class ConvertedObject {
         return unitsOfVolume;
     }
 
-    public static ConvertedObject prepareUnitsOfTemperature() {
-        ConvertedObject unitsOfTemperature = new ConvertedObject("units of temperature");
-
-        unitsOfTemperature.setValues("Celsjusz", 100.0);
-        unitsOfTemperature.setValues("Fahrenheit", 212.0);
-        unitsOfTemperature.setValues("Kelvin", 373.15);
-        unitsOfTemperature.setValues("Rankine", 671.67);
-        unitsOfTemperature.setValues("Reamur", 80.0);
-
-        return unitsOfTemperature;
-    }
+//    public static ConvertedObject prepareUnitsOfTemperature() {
+//        ConvertedObject unitsOfTemperature = new ConvertedObject("units of temperature");
+//
+//        unitsOfTemperature.setValues("Celsjusz", 100.0);
+//        unitsOfTemperature.setValues("Fahrenheit", 212.0);
+//        unitsOfTemperature.setValues("Kelvin", 373.15);
+//        unitsOfTemperature.setValues("Rankine", 671.67);
+//        unitsOfTemperature.setValues("Reamur", 80.0);
+//
+//        return unitsOfTemperature;
+//    }
 
     public static ConvertedObject prepareUnitsOfQuantity() {
         ConvertedObject unitsOfQuantity = new ConvertedObject("units of quantity");

@@ -4,6 +4,7 @@ import java.util.Map;
 public class ConvertedObject {
     private String name;
     private Map<String, Double> values = new HashMap<>();
+    private Double minValue;
 
     public ConvertedObject(String name) {
         this.name = name;
@@ -13,8 +14,16 @@ public class ConvertedObject {
         this.values.put(name, value);
     }
 
+    public void setMinValue(Double minValue) {
+        this.minValue = minValue;
+    }
+
     public Map<String, Double> getValues() {
         return values;
+    }
+
+    public Double getMinValue() {
+        return minValue;
     }
 
     public String getName() {
@@ -32,6 +41,8 @@ public class ConvertedObject {
         currencies.setValues("SEK", 0.43);
         currencies.setValues("NOK", 0.44);
 
+        currencies.setMinValue(0.00);
+
         return currencies;
     }
 
@@ -46,6 +57,8 @@ public class ConvertedObject {
         unitsOfLength.setValues("cal", 2.54);
         unitsOfLength.setValues("jard", 91.44);
 
+        unitsOfLength.setMinValue(0.00);
+
         return unitsOfLength;
     }
 
@@ -57,6 +70,8 @@ public class ConvertedObject {
         speedUnits.setValues("węzły", 1.944012);
         speedUnits.setValues("stopy/s", 3.28084);
         speedUnits.setValues("machy", 0.002939);
+
+        speedUnits.setMinValue(0.0);
 
         return speedUnits;
     }
@@ -71,6 +86,8 @@ public class ConvertedObject {
         unitsOfArea.setValues("ha", 0.0001);
         unitsOfArea.setValues("km^2", 0.000001);
 
+        unitsOfArea.setMinValue(0.0);
+
         return unitsOfArea;
     }
 
@@ -80,6 +97,9 @@ public class ConvertedObject {
         unitsOfDataSize.setValues("KB", 1024.0);
         unitsOfDataSize.setValues("MB", 1.0);
         unitsOfDataSize.setValues("GB", 0.000977);
+
+        unitsOfDataSize.setMinValue(0.0);
+
         return unitsOfDataSize;
     }
 
@@ -92,30 +112,35 @@ public class ConvertedObject {
         unitsOfVolume.setValues("l", 1.0);
         unitsOfVolume.setValues("m^3", 0.001);
 
+        unitsOfVolume.setMinValue(0.0);
+
         return unitsOfVolume;
     }
 
-//    public static ConvertedObject prepareUnitsOfTemperature() {
-//        ConvertedObject unitsOfTemperature = new ConvertedObject("units of temperature");
-//
-//        unitsOfTemperature.setValues("Celsjusz", 100.0);
-//        unitsOfTemperature.setValues("Fahrenheit", 212.0);
-//        unitsOfTemperature.setValues("Kelvin", 373.15);
-//        unitsOfTemperature.setValues("Rankine", 671.67);
-//        unitsOfTemperature.setValues("Reamur", 80.0);
-//
-//        return unitsOfTemperature;
-//    }
+    // public static ConvertedObject prepareUnitsOfTemperature() {
+    // ConvertedObject unitsOfTemperature = new ConvertedObject("units of
+    // temperature");
+    //
+    // unitsOfTemperature.setValues("Celsjusz", 100.0);
+    // unitsOfTemperature.setValues("Fahrenheit", 212.0);
+    // unitsOfTemperature.setValues("Kelvin", 373.15);
+    // unitsOfTemperature.setValues("Rankine", 671.67);
+    // unitsOfTemperature.setValues("Reamur", 80.0);
+    //
+    // return unitsOfTemperature;
+    // }
 
     public static ConvertedObject prepareUnitsOfQuantity() {
         ConvertedObject unitsOfQuantity = new ConvertedObject("units of quantity");
 
-        unitsOfQuantity.setValues("sztuka", 1440.0);
+        unitsOfQuantity.setValues("sztuka", 1.0);
         unitsOfQuantity.setValues("tuzin", 120.0);
         unitsOfQuantity.setValues("mendel", 96.0);
         unitsOfQuantity.setValues("mendel chłopski", 90.0);
         unitsOfQuantity.setValues("kopa", 24.0);
         unitsOfQuantity.setValues("gros", 10.0);
+
+        unitsOfQuantity.setMinValue(0.0);
 
         return unitsOfQuantity;
     }

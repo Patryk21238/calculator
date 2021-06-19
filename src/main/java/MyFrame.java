@@ -1,9 +1,10 @@
-import datetimeinfo.DTInfoESP;
-import datetimeinfo.DTInfoEng;
-import datetimeinfo.DTInfoRU;
-import datetimeinfo.DateTimeInfo;
-
 import javax.swing.*;
+
+import dateTimeInfo.DTInfoESP;
+import dateTimeInfo.DTInfoEng;
+import dateTimeInfo.DTInfoRU;
+import dateTimeInfo.DateTimeInfo;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -100,9 +101,9 @@ public class MyFrame extends JFrame {
                     case "units of volume":
                         chooseValueType(arrayOfObjects.get(5));
                         break;
-//                    case "units of temperature":
-//                        chooseValueType(arrayOfObjects.get(6));
-//                        break;
+                    // case "units of temperature":
+                    // chooseValueType(arrayOfObjects.get(6));
+                    // break;
                     case "units of quantity":
                         chooseValueType(arrayOfObjects.get(6));
                         break;
@@ -144,31 +145,56 @@ public class MyFrame extends JFrame {
 
                 switch (conversion) {
                     case "currencies":
-                        chooseFieldAndCountResult(arrayOfObjects.get(0), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(0), from, to, typedValue);
+                        } catch (InvalidInputDataException e3) {
+
+                        }
                         break;
 
                     case "units of length":
-                        chooseFieldAndCountResult(arrayOfObjects.get(1), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(1), from, to, typedValue);
+                        } catch (InvalidInputDataException e3) {
+
+                        }
                         break;
 
                     case "units of speed":
-                        chooseFieldAndCountResult(arrayOfObjects.get(2), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(2), from, to, typedValue);
+                        } catch (InvalidInputDataException e1) {
+                        }
                         break;
 
                     case "units of area":
-                        chooseFieldAndCountResult(arrayOfObjects.get(3), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(3), from, to, typedValue);
+                        } catch (InvalidInputDataException e1) {
+                        }
                         break;
                     case "units of data size":
-                        chooseFieldAndCountResult(arrayOfObjects.get(4), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(4), from, to, typedValue);
+                        } catch (InvalidInputDataException e2) {
+                        }
                         break;
                     case "units of volume":
-                        chooseFieldAndCountResult(arrayOfObjects.get(5), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(5), from, to, typedValue);
+                        } catch (InvalidInputDataException e2) {
+
+                        }
                         break;
-//                    case "units of temperature":
-//                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
-//                        break;
+                    // case "units of temperature":
+                    // chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
+                    // break;
                     case "units of quantity":
-                        chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
+                        } catch (InvalidInputDataException e1) {
+
+                        }
                         break;
 
                 }
@@ -186,7 +212,7 @@ public class MyFrame extends JFrame {
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfArea());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfDataSize());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfVolume());
-//        arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
+        // arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfQuantity());
     }
 
@@ -200,9 +226,12 @@ public class MyFrame extends JFrame {
         System.out.println();
     }
 
-    public static void chooseFieldAndCountResult(ConvertedObject inputObject, String from, String to,
-            double typedValue) {
+    public static void chooseFieldAndCountResult(ConvertedObject inputObject, String from, String to, double typedValue)
+            throws InvalidInputDataException {
         String result = countResult(inputObject, from, to, typedValue);
+        if (Double.parseDouble(result) < inputObject.getMinValue()) {
+            throw new InvalidInputDataException();
+        }
         toField = prepareAmountField(150, result);
         contentPane.add(toField);
         contentPane.revalidate();
@@ -253,10 +282,10 @@ public class MyFrame extends JFrame {
         if (randInt == 0) {
             DateTimeInfo dateTimeInfo = new DateTimeInfo();
             message = dateTimeInfo.getGreetingMessage();
-        } else if(randInt == 1) {
+        } else if (randInt == 1) {
             DTInfoEng dtInfoEng = new DTInfoEng();
             message = dtInfoEng.getGreetingMessage();
-        } else  if (randInt == 2) {
+        } else if (randInt == 2) {
             DTInfoRU dtInfoRU = new DTInfoRU();
             message = dtInfoRU.getGreetingMessage();
         } else {

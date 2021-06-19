@@ -31,7 +31,7 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareCurrencies() {
-        ConvertedObject currencies = new ConvertedObject("currencies");
+        ConvertedObject currencies = new ConvertedObject("Currencies");
 
         currencies.setValues("PLN", 1.0);
         currencies.setValues("EUR", 4.47);
@@ -47,7 +47,7 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareUnitsOfLength() {
-        ConvertedObject unitsOfLength = new ConvertedObject("units of length");
+        ConvertedObject unitsOfLength = new ConvertedObject("Units of length");
 
         unitsOfLength.setValues("cm", 1.0);
         unitsOfLength.setValues("mm", 0.1);
@@ -63,7 +63,7 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareSpeedUnits() {
-        ConvertedObject speedUnits = new ConvertedObject("units of speed");
+        ConvertedObject speedUnits = new ConvertedObject("Units of speed");
 
         speedUnits.setValues("m/s", 1.0);
         speedUnits.setValues("km/h", 3.6);
@@ -77,7 +77,7 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareUnitsOfArea() {
-        ConvertedObject unitsOfArea = new ConvertedObject("units of area");
+        ConvertedObject unitsOfArea = new ConvertedObject("Units of area");
 
         unitsOfArea.setValues("cm^2", 10000.0);
         unitsOfArea.setValues("dm^2", 100.0);
@@ -92,11 +92,12 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareUnitsOfDataSize() {
-        ConvertedObject unitsOfDataSize = new ConvertedObject("units of data size");
-        unitsOfDataSize.setValues("B", 1048576.0);
-        unitsOfDataSize.setValues("KB", 1024.0);
-        unitsOfDataSize.setValues("MB", 1.0);
-        unitsOfDataSize.setValues("GB", 0.000977);
+        ConvertedObject unitsOfDataSize = new ConvertedObject("Units of data size");
+        unitsOfDataSize.setValues("b", 1000000.0);
+        unitsOfDataSize.setValues("Kb", 1000.0);
+        unitsOfDataSize.setValues("Mb", 1.0);
+        unitsOfDataSize.setValues("Gb", 0.001);
+        unitsOfDataSize.setValues("Tb", 0.000001);
 
         unitsOfDataSize.setMinValue(0.0);
 
@@ -104,7 +105,7 @@ public class ConvertedObject {
     }
 
     public static ConvertedObject prepareUnitsOfVolume() {
-        ConvertedObject unitsOfVolume = new ConvertedObject("units of volume");
+        ConvertedObject unitsOfVolume = new ConvertedObject("Units of volume");
 
         unitsOfVolume.setValues("ml", 1000.0);
         unitsOfVolume.setValues("cl", 100.0);
@@ -117,23 +118,22 @@ public class ConvertedObject {
         return unitsOfVolume;
     }
 
-    // public static ConvertedObject prepareUnitsOfTemperature() {
-    // ConvertedObject unitsOfTemperature = new ConvertedObject("units of
-    // temperature");
-    //
-    // unitsOfTemperature.setValues("Celsjusz", 100.0);
-    // unitsOfTemperature.setValues("Fahrenheit", 212.0);
-    // unitsOfTemperature.setValues("Kelvin", 373.15);
-    // unitsOfTemperature.setValues("Rankine", 671.67);
-    // unitsOfTemperature.setValues("Reamur", 80.0);
-    //
-    // return unitsOfTemperature;
-    // }
+    public static ConvertedObject prepareUnitsOfTemperature() {
+        ConvertedObject unitsOfTemperature = new ConvertedObject("Units of temperature");
+
+        unitsOfTemperature.setValues("Celsjusz", 100.0);
+        unitsOfTemperature.setValues("Fahrenheit", 212.0);
+        unitsOfTemperature.setValues("Kelvin", 373.15);
+
+        unitsOfTemperature.setMinValue(0.0);
+
+        return unitsOfTemperature;
+    }
 
     public static ConvertedObject prepareUnitsOfQuantity() {
-        ConvertedObject unitsOfQuantity = new ConvertedObject("units of quantity");
+        ConvertedObject unitsOfQuantity = new ConvertedObject("Units of quantity");
 
-        unitsOfQuantity.setValues("sztuka", 1.0);
+        unitsOfQuantity.setValues("sztuka", 1440.0);
         unitsOfQuantity.setValues("tuzin", 120.0);
         unitsOfQuantity.setValues("mendel", 96.0);
         unitsOfQuantity.setValues("mendel chłopski", 90.0);

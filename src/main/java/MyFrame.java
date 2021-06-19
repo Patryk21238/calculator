@@ -83,28 +83,28 @@ public class MyFrame extends JFrame {
                 String conversion = Objects.requireNonNull(conversionType.getSelectedItem()).toString();
 
                 switch (conversion) {
-                    case "currencies":
+                    case "Currencies":
                         chooseValueType(arrayOfObjects.get(0));
                         break;
-                    case "units of length":
+                    case "Units of length":
                         chooseValueType(arrayOfObjects.get(1));
                         break;
-                    case "units of speed":
+                    case "Units of speed":
                         chooseValueType(arrayOfObjects.get(2));
                         break;
-                    case "units of area":
+                    case "Units of area":
                         chooseValueType(arrayOfObjects.get(3));
                         break;
-                    case "units of data size":
+                    case "Units of data size":
                         chooseValueType(arrayOfObjects.get(4));
                         break;
-                    case "units of volume":
+                    case "Units of volume":
                         chooseValueType(arrayOfObjects.get(5));
                         break;
-                    // case "units of temperature":
-                    // chooseValueType(arrayOfObjects.get(6));
-                    // break;
-                    case "units of quantity":
+                    case "Units of temperature":
+                        chooseValueType(arrayOfObjects.get(6));
+                        break;
+                    case "Units of quantity":
                         chooseValueType(arrayOfObjects.get(6));
                         break;
 
@@ -144,7 +144,7 @@ public class MyFrame extends JFrame {
                 contentPane.updateUI();
 
                 switch (conversion) {
-                    case "currencies":
+                    case "Currencies":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(0), from, to, typedValue);
                         } catch (InvalidInputDataException e3) {
@@ -152,7 +152,7 @@ public class MyFrame extends JFrame {
                         }
                         break;
 
-                    case "units of length":
+                    case "Units of length":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(1), from, to, typedValue);
                         } catch (InvalidInputDataException e3) {
@@ -160,36 +160,39 @@ public class MyFrame extends JFrame {
                         }
                         break;
 
-                    case "units of speed":
+                    case "Units of speed":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(2), from, to, typedValue);
                         } catch (InvalidInputDataException e1) {
                         }
                         break;
 
-                    case "units of area":
+                    case "Units of area":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(3), from, to, typedValue);
                         } catch (InvalidInputDataException e1) {
                         }
                         break;
-                    case "units of data size":
+                    case "Units of data size":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(4), from, to, typedValue);
                         } catch (InvalidInputDataException e2) {
                         }
                         break;
-                    case "units of volume":
+                    case "Units of volume":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(5), from, to, typedValue);
                         } catch (InvalidInputDataException e2) {
 
                         }
                         break;
-                    // case "units of temperature":
-                    // chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
-                    // break;
-                    case "units of quantity":
+                    case "Units of temperature":
+                        try {
+                            chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
+                        } catch (InvalidInputDataException e2) {
+                        }
+                        break;
+                    case "Units of quantity":
                         try {
                             chooseFieldAndCountResult(arrayOfObjects.get(6), from, to, typedValue);
                         } catch (InvalidInputDataException e1) {
@@ -212,7 +215,7 @@ public class MyFrame extends JFrame {
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfArea());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfDataSize());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfVolume());
-        // arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
+        arrayOfObjects.add(ConvertedObject.prepareUnitsOfTemperature());
         arrayOfObjects.add(ConvertedObject.prepareUnitsOfQuantity());
     }
 
@@ -240,18 +243,54 @@ public class MyFrame extends JFrame {
     }
 
     private static String countResult(ConvertedObject convertedObject, String from, String to, double typedValue) {
-        double result;
+        double result = 1.0;
         double value1 = 1.0;
         double value2 = 1.0;
+
         for (Map.Entry<String, Double> entry : convertedObject.getValues().entrySet()) {
             if (entry.getKey().equals(from))
                 value1 = entry.getValue();
             if (entry.getKey().equals(to))
                 value2 = entry.getValue();
         }
-        result = typedValue * (value1 / value2);
+        if (convertedObject.getName() == "Units of temperature")
+            result = countTemperature(typedValue, from, to);
+        else {
+
+            if (value1 < value2) {
+                result = typedValue / (value1 / value2);
+            } else if (value1 > value2) {
+                result = typedValue * (value2 / value1);
+            } else
+                result = typedValue;
+        }
+        result = result * 1000000;
+        result = Math.round(result);
+        result = result / 1000000;
 
         return Double.toString(result);
+    }
+
+    private static Double countTemperature(Double typedValue, String from, String to) {
+        Double result;
+
+        if (from == "Celsjusz" && to == "Fahrenheit") {
+            result = typedValue * 1.8 + 32;
+        } else if (from == "Celsjusz" && to == "Kelvin") {
+            result = typedValue + 273.15;
+        } else if (from == "Fahrenheit" && to == "Celsjusz") {
+            result = (typedValue - 32) * (5 / 9);
+        } else if (from == "Fahrenheit" && to == "Celsjusz") {
+            result = ((typedValue - 32) * (5 / 9)) + 273.15;
+        } else if (from == "Kelvin" && to == "Celsjusz") {
+            result = typedValue - 273.15;
+        } else if (from == "Kelvin" && to == "Fahrenheit") {
+            result = ((typedValue - 273.15) * 1.8) + 32;
+        } else {
+            result = typedValue;
+        }
+        return result;
+
     }
 
     public static void fillComboBox(JComboBox<String> comboBox, ConvertedObject convertedObject) {
